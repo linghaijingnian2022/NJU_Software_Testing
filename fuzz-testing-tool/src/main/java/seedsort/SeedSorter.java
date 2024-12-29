@@ -1,4 +1,4 @@
-package seedsort;
+package main.java.seedsort;
 
 public class SeedSorter {
 }

@@ -1,4 +1,4 @@
-package mutation;
+package main.java.mutation;
 
 public class Mutator {
 }
