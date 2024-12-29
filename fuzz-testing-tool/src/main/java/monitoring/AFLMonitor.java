@@ -1,5 +1,8 @@
 package monitoring;
 
+
+import org.jacoco.agent.AgentJar;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +14,7 @@ public class AFLMonitor {
     private ResultAnalyzer resultAnalyzer;
 
     public AFLMonitor() {
-        this.coverageCollector = new CoverageCollector();
+        this.coverageCollector = new CoverageCollector("target/jacoco-agent.jar","jacoco.exec");
         this.errorLogger = new ErrorLogger();
         this.resultAnalyzer = new ResultAnalyzer();
     }
@@ -38,12 +41,6 @@ public class AFLMonitor {
     }
 }
 
-class CoverageCollector {
-    public void collectCoverage() {
-        // 使用 JaCoCo 或其他工具收集覆盖率信息
-        System.out.println("Collecting coverage data...");
-    }
-}
 
 class ErrorLogger {
     public void logErrors(Process process) {
@@ -59,9 +56,3 @@ class ErrorLogger {
     }
 }
 
-class ResultAnalyzer {
-    public void analyzeResults() {
-        // 分析执行结果，生成统计信息和报告
-        System.out.println("Analyzing results...");
-    }
-}
