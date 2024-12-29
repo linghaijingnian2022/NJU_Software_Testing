@@ -1,4 +1,4 @@
-package main.java.evaluation;
+package evaluation;
 
 public class ResultPlotter {
 }

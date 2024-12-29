@@ -1,4 +1,4 @@
-package main.java.energy;
+package energy;
 
 public class EnergyScheduler {
 }

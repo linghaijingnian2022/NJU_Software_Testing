@@ -1,4 +1,4 @@
-package main.java.executor;
+package executor;
 
 public class TestExecutor {
 }
