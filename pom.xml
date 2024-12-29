@@ -48,6 +48,7 @@
 
 
     <build>
+        <directory>${project.basedir}/target</directory> <!-- 指定构建输出目录 -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
