@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoverageEvaluator {
@@ -46,39 +47,25 @@ public class CoverageEvaluator {
         File classFile = new File(classFilePath);
         analyzer.analyzeAll(classFile);
 
-        // 准备数据
-        XYSeries coverageSeries = new XYSeries("Coverage");
-        int step = 0; // 步长，模拟不同时间点的覆盖率
-        for (ICoverageNode node : coverageBuilder.getClasses()) {
-            ICounter instructionCounter = node.getInstructionCounter();
-            int coveredInstructions = instructionCounter.getCoveredCount();
-            int totalInstructions = instructionCounter.getTotalCount();
-            double coverageRatio = (totalInstructions > 0) ? ((double) coveredInstructions / totalInstructions) * 100 : 0;
-
-            coverageSeries.add(step++, coverageRatio);
-        }
-
-        // 创建图表
-        XYSeriesCollection dataset = new XYSeriesCollection(coverageSeries);
-        JFreeChart chart = ChartFactory.createXYLineChart(
-                "Coverage Curve",
-                "Step",
-                "Coverage (%)",
-                dataset
-        );
-
-        // 显示图表
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Coverage Curve");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new ChartPanel(chart));
-            frame.pack();
-            frame.setVisible(true);
-        });
 
         // 输出覆盖率结果
         printCoverageResults(coverageBuilder);
     }
+
+    public static class CoverageDataCollector {
+        public List<CoverageData> collectCoverageData() {
+            List<CoverageData> coverageDataList = new ArrayList<>();
+            // 模拟不同版本的覆盖率数据
+            coverageDataList.add(new CoverageData("v1.0", 60.0));
+            coverageDataList.add(new CoverageData("v1.1", 70.0));
+            coverageDataList.add(new CoverageData("v1.2", 80.0));
+            coverageDataList.add(new CoverageData("v1.3", 75.0));
+            coverageDataList.add(new CoverageData("v1.4", 90.0));
+            return coverageDataList;
+        }
+    }
+
+
 
     // 打印覆盖率结果
     private void printCoverageResults(CoverageBuilder coverageBuilder) {
