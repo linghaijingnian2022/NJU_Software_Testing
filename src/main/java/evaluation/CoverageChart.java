@@ -12,35 +12,35 @@ import java.awt.*;
 import java.util.List;
 
 public class CoverageChart extends JFrame {
-    public CoverageChart(List<CoverageData> coverageDataList) {
+    public CoverageChart(List<CoverageData> coverageDataList,String name) {
         setTitle("Code Coverage Over Time");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        XYSeries series = new XYSeries("Coverage");
+        XYSeries series = new XYSeries(name);
         // 添加覆盖率数据并进行线性插值
         for (int i = 0; i < coverageDataList.size() - 1; i++) {
             CoverageData start = coverageDataList.get(i);
             CoverageData end = coverageDataList.get(i + 1);
 
             // 添加起始点
-            series.add(Double.parseDouble(start.getVersion().substring(1)), start.getCoverage());
+            series.add(Double.parseDouble(start.getTime().substring(1)), start.getCoverage());
 
             // 线性插值，添加中间点
-            double midVersion = (Double.parseDouble(start.getVersion().substring(1)) +
-                    Double.parseDouble(end.getVersion().substring(1))) / 2;
+            double midVersion = (Double.parseDouble(start.getTime().substring(1)) +
+                    Double.parseDouble(end.getTime().substring(1))) / 2;
             double midCoverage = (start.getCoverage() + end.getCoverage()) / 2;
             series.add(midVersion, midCoverage);
         }
 
         // 添加最后一个点
-        series.add(Double.parseDouble(coverageDataList.get(coverageDataList.size() - 1).getVersion().substring(1)),
+        series.add(Double.parseDouble(coverageDataList.get(coverageDataList.size() - 1).getTime().substring(1)),
                 coverageDataList.get(coverageDataList.size() - 1).getCoverage());
 
         XYSeriesCollection dataset = new XYSeriesCollection(series);
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Code Coverage Over Time",
-                "Version",
+                "time",
                 "Coverage (%)",
                 dataset
         );
@@ -66,7 +66,7 @@ public class CoverageChart extends JFrame {
         CoverageEvaluator.CoverageDataCollector collector = new CoverageEvaluator.CoverageDataCollector();
         List<CoverageData> coverageData = collector.collectCoverageData();
         SwingUtilities.invokeLater(() -> {
-            CoverageChart chart = new CoverageChart(coverageData);
+            CoverageChart chart = new CoverageChart(coverageData,"test");
             chart.setVisible(true);
         });
     }
