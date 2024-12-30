@@ -1,4 +1,5 @@
 package mutation;
 
-public class Mutator {
+public interface Mutator {
+    byte[] mutate(byte[] input);
 }
