@@ -4,8 +4,8 @@ public class CoverageData {
     private String time;
     private double coverage;
 
-    public CoverageData(String version, double coverage) {
-        this.time = version;
+    public CoverageData(String time, double coverage) {
+        this.time = time;
         this.coverage = coverage;
     }
 

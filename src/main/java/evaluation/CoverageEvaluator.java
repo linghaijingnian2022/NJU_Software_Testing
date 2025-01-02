@@ -1,4 +1,5 @@
 package evaluation;
+
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.ICoverageNode;
 import org.jacoco.core.analysis.ICounter;
@@ -15,7 +16,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +59,29 @@ public class CoverageEvaluator {
         public List<CoverageData> collectCoverageData() {
             List<CoverageData> coverageDataList = new ArrayList<>();
             // 模拟不同版本的覆盖率数据
-            coverageDataList.add(new CoverageData("v1.0", 60.0));
-            coverageDataList.add(new CoverageData("v1.1", 70.0));
-            coverageDataList.add(new CoverageData("v1.2", 80.0));
-            coverageDataList.add(new CoverageData("v1.3", 75.0));
-            coverageDataList.add(new CoverageData("v1.4", 90.0));
+            String csvFile = "path/to/your/file.csv"; // 替换为你的CSV文件路径
+            String line;
+            String csvSplitBy = ","; // 根据实际情况修改分隔符
+
+            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+                while ((line = br.readLine()) != null) {
+                    // 使用逗号分隔符分割每一行
+                    String[] values = line.split(csvSplitBy);
+
+                    coverageDataList.add(new CoverageData(values[0], Double.parseDouble(values[1])));
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            coverageDataList.add(new CoverageData("1.0", 60.0));
+            coverageDataList.add(new CoverageData("1.1", 70.0));
+            coverageDataList.add(new CoverageData("1.2", 80.0));
+            coverageDataList.add(new CoverageData("1.3", 75.0));
+            coverageDataList.add(new CoverageData("1.4", 90.0));
             return coverageDataList;
         }
     }
-
 
 
     // 打印覆盖率结果

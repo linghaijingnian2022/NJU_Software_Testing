@@ -37,10 +37,9 @@ public class FuzzingMonitor {
         }
     }
 
-    // 获取覆盖率（示例为简单的计数）
     public double getCoverage() {
         // 实际覆盖率计算逻辑应根据具体情况实现
-        return (double) executionCount/100; // 示例
+        return (double) executionCount/100;
     }
 
     // 获取执行速度
