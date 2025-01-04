@@ -98,11 +98,10 @@ public class fuzzer {
             }
 
             // 记录执行结果
-            // 假设这里可以获取到覆盖率和执行时间等信息，这里只是示例值
-            int coverage = 50;
-            long executionTime = 1000;
+//            int coverage = 50;
+//            long executionTime = 1000;
             boolean isSpecial = false;
-            monitor.recordExecution(selectedSeed.data, coverage, executionTime, i, isSpecial);
+            monitor.recordExecution(selectedSeed.data, selectedSeed.coverage, selectedSeed.executionTime, i, isSpecial);
 
             // 根据选择的变异策略进行种子变异
             Mutator mutator;
