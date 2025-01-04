@@ -50,7 +50,7 @@ public class CoverageChart extends JFrame {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Code Coverage Over Time",
                 "time (h)",
-                "Coverage (%)",
+                "Coverage",
                 dataset
         );
 
