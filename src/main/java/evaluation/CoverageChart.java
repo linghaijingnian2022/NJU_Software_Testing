@@ -42,9 +42,6 @@ public class CoverageChart extends JFrame {
                 series.add(midVersion, midCoverage);
             }
 
-            // 添加最后一个点
-            series.add(Double.parseDouble(coverageDataList.get(coverageDataList.size() - 1).getTime()),
-                    coverageDataList.get(coverageDataList.size() - 1).getCoverage());
 
             // 将系列添加到数据集中
             dataset.addSeries(series);

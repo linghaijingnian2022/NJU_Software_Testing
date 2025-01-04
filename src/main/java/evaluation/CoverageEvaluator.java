@@ -74,9 +74,10 @@ public class CoverageEvaluator {
                         Files.lines(entry).forEach(line -> {
                             // 将每一行按逗号分隔
                             String[] fields = line.split(",");
-                            if (fields[0].matches("\\d+")) {
-                                coverageDataList2.add(new CoverageData(fields[0], Double.parseDouble(fields[ 1])));
+                            if (fields[0].matches("^-?\\d+(\\.\\d+)?$")) {
+                                coverageDataList2.add(new CoverageData(fields[0], Double.parseDouble(fields[1])));
                             }
+
                         });
                         coverageDataList.add(coverageDataList2);
                     }
