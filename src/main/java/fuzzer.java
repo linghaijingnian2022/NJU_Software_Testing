@@ -12,6 +12,8 @@ import mutation.Mutator;
 import mutation.SpliceMutator;
 import seedsort.Seed;
 import seedsort.SeedSorter;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class fuzzer {
         }
 
         if (targetPath == null || initialSeedPath == null) {
-            System.err.println("Usage: java fuzzer [-p <target_program_path>] [-s <initial_seed_path>] [-m <scheduling_strategy>] [-e <mutation_strategy>]");
+            System.err.println("Usage: java fuzzer [-i <target_program_path>] [-o <initial_seed_path>]");
             return;
         }
 
@@ -132,8 +134,12 @@ public class fuzzer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<evaluation.CoverageData> coverageDataList = CoverageEvaluator.CoverageDataCollector.collectCoverageData();
-        CoverageChart chart = new CoverageChart(coverageDataList, "Test Coverage");
-        chart.setVisible(true);
+        CoverageEvaluator.CoverageDataCollector collector = new CoverageEvaluator.CoverageDataCollector();
+        List<List<evaluation.CoverageData>> coverageDataList = collector.collectCoverageData();
+        List<String> chartNames = collector.collectName();
+        SwingUtilities.invokeLater(() -> {
+            CoverageChart chart = new CoverageChart(coverageDataList, chartNames);
+            chart.setVisible(true);
+        });
     }
 }
