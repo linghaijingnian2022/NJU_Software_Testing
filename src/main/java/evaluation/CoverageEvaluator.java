@@ -20,6 +20,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,30 +60,53 @@ public class CoverageEvaluator {
     }
 
     public static class CoverageDataCollector {
-        public List<CoverageData> collectCoverageData() {
-            List<CoverageData> coverageDataList = new ArrayList<>();
-            // 模拟不同版本的覆盖率数据
-            String csvFile = "path/to/your/file.csv"; // 替换为你的CSV文件路径
-            String line;
-            String csvSplitBy = ","; // 根据实际情况修改分隔符
-
-            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-                while ((line = br.readLine()) != null) {
-                    // 使用逗号分隔符分割每一行
-                    String[] values = line.split(csvSplitBy);
-
-                    coverageDataList.add(new CoverageData(values[0], Double.parseDouble(values[1])));
-
+        public List<List<CoverageData>> collectCoverageData() {
+            List<List<CoverageData>> coverageDataList = new ArrayList<>();
+            // 指定文件夹路径
+            String folderPath = "\\src\\main\\csvs"; // 替换为您的文件夹路径
+            Path path = Paths.get(Paths.get("").toAbsolutePath() + folderPath);
+            // 检查文件夹是否存在
+            if (Files.exists(path) && Files.isDirectory(path)) {
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.csv")) {
+                    for (Path entry : stream) {
+                        List<CoverageData> coverageDataList2 = new ArrayList<>();
+                        // 逐行读取文件内容
+                        Files.lines(entry).forEach(line -> {
+                            // 将每一行按逗号分隔
+                            String[] fields = line.split(",");
+                            if (fields[0].matches("\\d+")) {
+                                coverageDataList2.add(new CoverageData(fields[0], Double.parseDouble(fields[ 1])));
+                            }
+                        });
+                        coverageDataList.add(coverageDataList2);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("指定的路径不存在或不是一个文件夹。");
             }
-            coverageDataList.add(new CoverageData("1.0", 60.0));
-            coverageDataList.add(new CoverageData("1.1", 70.0));
-            coverageDataList.add(new CoverageData("1.2", 80.0));
-            coverageDataList.add(new CoverageData("1.3", 75.0));
-            coverageDataList.add(new CoverageData("1.4", 90.0));
             return coverageDataList;
+        }
+
+        public List<String> collectName() {
+            List<String> nameList = new ArrayList<>();
+            // 指定文件夹路径
+            String folderPath = "\\src\\main\\csvs"; // 替换为您的文件夹路径
+            Path path = Paths.get(Paths.get("").toAbsolutePath() + folderPath);
+            // 检查文件夹是否存在
+            if (Files.exists(path) && Files.isDirectory(path)) {
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.csv")) {
+                    for (Path entry : stream) {
+                        nameList.add(entry.getFileName().toString().substring(0, entry.getFileName().toString().lastIndexOf(".")));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("指定的路径不存在或不是一个文件夹。");
+            }
+            return nameList;
         }
     }
 
