@@ -11,6 +11,9 @@ public class SeedSorter {
         seeds.sort((s1, s2) -> Integer.compare(s1.enqueueOrder, s2.enqueueOrder));
     }
 
+    //排序种子
+
+
     // 基于覆盖率排序
     public static void sortByCoverage(List<Seed> seeds) {
         seeds.sort((s1, s2) -> Integer.compare(s2.coverage, s1.coverage)); // 降序
