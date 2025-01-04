@@ -1,22 +1,24 @@
 package mutation;
 
+import seedsort.Seed;
+
 import java.util.Random;
 
 public class InterestMutator implements Mutator {
     private final Random random = new Random();
 
     @Override
-    public byte[] mutate(byte[] input) {
-        byte[] mutated = input.clone();  // 克隆原始输入，防止修改原始数据
+    public Seed mutate(Seed seed) {
+        byte[] mutated = seed.data.clone();  // 克隆原始输入，防止修改原始数据
 
-        if (input.length > 0) {
+        if (mutated.length > 0) {
             // 以某种概率选择变异方式
             int mutationChoice = random.nextInt(5);  // 这里有五种变异操作
 
             switch (mutationChoice) {
                 case 0:
                     // 随机替换一个字节
-                    int index = random.nextInt(input.length);  // 选择一个随机索引
+                    int index = random.nextInt(mutated.length);  // 选择一个随机索引
                     mutated[index] = (byte) random.nextInt(256);  // 用一个随机字节替换
                     break;
 
@@ -54,6 +56,6 @@ public class InterestMutator implements Mutator {
             }
         }
 
-        return mutated;
+        return new Seed(mutated, seed.coverage, seed.executionTime, seed.enqueueOrder);
     }
 }

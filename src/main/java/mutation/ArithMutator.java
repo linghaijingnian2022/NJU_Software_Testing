@@ -1,15 +1,17 @@
 package mutation;
 
+import seedsort.Seed;
+
 import java.util.Random;
 
 public class ArithMutator implements Mutator {
     private final Random random = new Random();
 
     @Override
-    public byte[] mutate(byte[] input) {
-        byte[] mutated = input.clone();
+    public Seed mutate(Seed seed) {
+        byte[] mutated = seed.data.clone();
         // 随机选择一个位置进行算术变异
-        int index = random.nextInt(input.length);
+        int index = random.nextInt(mutated.length);
         // 随机选择一种算术操作（0:加, 1:减, 2:乘, 3:除）
         int operation = random.nextInt(4);
         switch (operation) {
@@ -34,6 +36,6 @@ public class ArithMutator implements Mutator {
                 }
                 break;
         }
-        return mutated;
+        return new Seed(mutated, seed.coverage, seed.executionTime, seed.enqueueOrder);
     }
 }

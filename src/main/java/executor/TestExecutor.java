@@ -1,38 +1,31 @@
 package executor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import seedsort.Seed;
 
 public class TestExecutor {
+    private final Seed seed;
+    private final ProcessRunner processRunner;
 
-    private final List<Long> executionTimes = new ArrayList<>();
-    private int executionCount = 0;
+    public TestExecutor(Seed seed, ProcessRunner processRunner) {
+        this.seed = seed;
+        this.processRunner = processRunner;
+    }
 
-    public void executeTest(File target, String[] args) {
-        try {
-            long startTime = System.currentTimeMillis();
-            ProcessBuilder pb = new ProcessBuilder();
-            pb.command().add(target.getAbsolutePath());
-            for (String arg : args) {
-                pb.command().add(arg);
-            }
-            Process process = pb.start();
-            process.waitFor();
-            long endTime = System.currentTimeMillis();
-            executionTimes.add(endTime - startTime);
-            executionCount++;
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+    public void executeFuzzTarget(String targetPath, String seedPath) throws IOException {
+        byte[] seedData = readSeed(seedPath);
+        processRunner.runFuzzTarget(targetPath, seedData);
+    }
+
+    private byte[] readSeed(String seedPath) throws IOException {
+        File file = new File(seedPath);
+        byte[] buffer = new byte[(int) file.length()];
+        try (FileInputStream fis = new FileInputStream(file)) {
+            fis.read(buffer);
         }
-    }
-
-    public List<Long> getExecutionTimes() {
-        return executionTimes;
-    }
-
-    public int getExecutionCount() {
-        return executionCount;
+        return buffer;
     }
 }

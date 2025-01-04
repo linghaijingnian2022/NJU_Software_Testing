@@ -56,7 +56,7 @@ public class CoverageEvaluator {
     }
 
     public static class CoverageDataCollector {
-        public List<CoverageData> collectCoverageData() {
+        public static List<CoverageData> collectCoverageData() {
             List<CoverageData> coverageDataList = new ArrayList<>();
             // 模拟不同版本的覆盖率数据
             String csvFile = "path/to/your/file.csv"; // 替换为你的CSV文件路径

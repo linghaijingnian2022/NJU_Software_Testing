@@ -1,5 +1,7 @@
 package mutation;
 
+import seedsort.Seed;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,8 @@ public class SpliceMutator implements Mutator {
     }
 
     @Override
-    public byte[] mutate(byte[] input) {
-        byte[] mutated = input.clone();
+    public Seed mutate(Seed seed) {
+        byte[] mutated = seed.data.clone();
         if (!seedPool.isEmpty()) {
             byte[] otherSeed = seedPool.get((int) (Math.random() * seedPool.size()));
             byte[] newBytes = new byte[mutated.length + otherSeed.length];
@@ -20,6 +22,6 @@ public class SpliceMutator implements Mutator {
             System.arraycopy(otherSeed, 0, newBytes, mutated.length, otherSeed.length);
             mutated = newBytes;
         }
-        return mutated;
+        return new Seed(mutated, seed.coverage, seed.executionTime, seed.enqueueOrder);
     }
 }

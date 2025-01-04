@@ -1,5 +1,7 @@
 package mutation;
 
+import seedsort.Seed;
+
 public interface Mutator {
-    byte[] mutate(byte[] input);
+    Seed mutate(Seed seed);
 }

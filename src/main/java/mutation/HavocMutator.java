@@ -1,13 +1,15 @@
 package mutation;
 
+import seedsort.Seed;
+
 import java.util.Random;
 
 public class HavocMutator implements Mutator {
     private final Random random = new Random();
 
     @Override
-    public byte[] mutate(byte[] input) {
-        byte[] mutated = input.clone();
+    public Seed mutate(Seed seed) {
+        byte[] mutated = seed.data.clone();
         int numMutations = random.nextInt(32); // 随机选择0 - 31次变异操作
         for (int i = 0; i < numMutations; i++) {
             int operation = random.nextInt(3); // 0:替换, 1:删除, 2:插入
@@ -40,6 +42,6 @@ public class HavocMutator implements Mutator {
                     break;
             }
         }
-        return mutated;
+        return new Seed(mutated, seed.coverage, seed.executionTime, seed.enqueueOrder);
     }
 }
